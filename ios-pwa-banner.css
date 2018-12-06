@@ -3,6 +3,14 @@ body {
     padding: 0px    
 }
 
+.show-element {
+    display: block;    
+}
+
+.hide-element {
+    display: none;    
+}
+
 .container {
     margin: 8px;
 }
@@ -29,6 +37,7 @@ body {
 }
 
 .banner-text {
+    width: 70%;
     float: left;
     padding: 10px;  
 }
