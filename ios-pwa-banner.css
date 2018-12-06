@@ -1,7 +1,19 @@
 body {
     margin: 0px;
-    padding: 0px    
+    padding: 0px; 
+    font-size: 16px;
 }
+
+/* not used for banner */
+p {
+    font-size : 120%;    
+}
+
+h1 {
+    font-size: 250%;    
+}
+
+/* banner css */
 
 .show-element {
     display: block;    
@@ -19,14 +31,14 @@ body {
     background-color: grey;
     position: absolute;
     width: 100%;
-    height: 5px;
+    height: 60px;
     bottom: 0px;
     overflow: hidden;
 }
 
 .app-icon {
+    height: 100%;
     float: left;
-    padding: 5px;
 }
 
 .app-icon img{
@@ -39,18 +51,24 @@ body {
 .banner-text {
     width: 70%;
     float: left;
-    padding: 10px;  
+    font-size: 17px;
+    padding: 5px;
 }
 
 .closing-button {
-    float: right;    
+    float: right;
+    height: 100%;
 }
 
 .closing-button img {    
     width: 20px;
     height: 20px;
     display: block;
-    margin: 20px auto;
-    margin-right: 20px;
+    padding: 5px;
 }
 
+.vertical-align {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
