@@ -2,7 +2,8 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        
         <title>iOS PWA Banner</title>
         <script src="ios-pwa-banner.js"></script>
         <link rel="stylesheet" href="ios-pwa-banner.css" />
@@ -12,14 +13,18 @@
             <h1>iOS PWA Banner</h1>
             <p>This is a sample page to show a PWA banner for iOS. To see the banner loading this page has to be
             loaded in a iOS device</p>
+            <p>v 3</p>
         </div>
 
         <div class="ios-pwa-banner hide-element">
-            <div class="app-icon"><img class="vertical-align" src="locomote-logo.png" /></div>
+            <div class="app-icon"><img class="vertical-align" src="img/locomote-logo.png" /></div>
             <div class="banner-text">
-                Install this APP to your home screen. Tap [icon] and then 'Add to homescreen'.
+                <span class="banner-text-one">Install {APPNAME} to your home screen</span>
+                <span class="banner-text-two hide-element">Tap <img src="img/share-action-icon.png" /> and "Add to homescreen"</span>
             </div>
-            <div class="closing-button"><img class="vertical-align" src="cancel.png" /></div>
+            <div class="closing-button">
+                <img class="vertical-align" src="img/cancel.png" />
+            </div>
         </div>
 
     </body>

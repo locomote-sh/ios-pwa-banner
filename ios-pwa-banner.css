@@ -1,7 +1,7 @@
 body {
     margin: 0px;
     padding: 0px; 
-    font-size: 16px;
+    font-size: 14px;
 }
 
 /* not used for banner */
@@ -28,7 +28,11 @@ h1 {
 }
 
 .ios-pwa-banner {
-    background-color: grey;
+    background-color: #D3D3D3;
+    color: #383838;
+    font-family: "Helvetica Neue";
+    font-size: 14px;
+    font-weight: 400;
     position: absolute;
     width: 100%;
     height: 60px;
@@ -42,17 +46,23 @@ h1 {
 }
 
 .app-icon img{
-    width: 50px;
-    height: 50px;    
+    width: 40px;
+    height: 40px;    
     display: block;
     margin: 0 auto;
+    padding: 10px;
 }
 
 .banner-text {
     width: 70%;
+    height: 100%;
     float: left;
-    font-size: 17px;
-    padding: 5px;
+    padding: 10px 10px 10px 0px;
+}
+
+.banner-text img {
+    width: 15px;
+    height: 23px;    
 }
 
 .closing-button {
@@ -64,7 +74,7 @@ h1 {
     width: 20px;
     height: 20px;
     display: block;
-    padding: 5px;
+    padding: 10px;
 }
 
 .vertical-align {
@@ -72,3 +82,53 @@ h1 {
     top: 50%;
     transform: translateY(-50%);
 }
+
+
+/* iPhone 5 and smaller*/
+@media only screen 
+and (min-device-width : 0px) 
+and (max-device-width : 568px) {
+    .ios-pwa-banner {
+        font-size: 14px;
+    }
+    .banner-text {
+        width: 65%;
+    }
+}
+
+/* iPhone 6,7,8 */
+@media only screen 
+and (min-device-width : 375px) 
+and (max-device-width : 667px) { 
+     .ios-pwa-banner {
+        font-size: 17px;
+    }
+    .banner-text {
+        width: 70%;
+    }
+}
+
+/* iPhone 6,7,8 Plus */
+@media only screen 
+and (min-device-width : 414px) 
+and (max-device-width : 736px) {
+    .ios-pwa-banner {
+        font-size: 17px;
+    }
+}
+
+
+/* iPhone X */
+@media only screen 
+and (min-device-width : 375px) 
+and (max-device-width : 812px)
+and (-webkit-device-pixel-ratio : 3) {
+    .ios-pwa-banner {
+        font-size: 17px;
+    }
+}
+
+
+
+
+
