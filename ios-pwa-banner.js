@@ -33,9 +33,10 @@ const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.n
 
 let addClickListener = ( element, fn) => {
     console.log('addClickListener');
-    return addEventListener( 'click', element, fn );
+    return addEventListener( 'touchstart', element, fn );
 }
 
+// TODO: click won't work on safary mobile
 let addEventListener = ( type, element, fn ) => {
     console.log('addEventListener');
     document.addEventListener( type, event => {
