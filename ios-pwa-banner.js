@@ -1,11 +1,23 @@
-// ios-pwa-banner.js 
+/*
+   Copyright 2018 Locomote Limited
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+       http://www.apache.org/licenses/LICENSE-2.0
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+
 
 // JS to show a PWA banner in iOS similar to the default banner showed in Android
 console.log('loaded ios-pwa-banner.js 0');
 
 let disableBannerCheck = true;
 
-// Detects if device is on iOS 
+// Detects if device is on iOS
 const isIos = () => {
     const userAgent = window.navigator.userAgent.toLowerCase();
     console.log('UA')
@@ -53,7 +65,7 @@ let showBanner = () => {
 
 let hideBanner = () => {
     addElementClass('ios-pwa-banner', 'hide-element');
-} 
+}
 
 let showTextOne = () => {
     showElementClass('banner-text-one');
@@ -68,23 +80,23 @@ let showTextTwo = () => {
 let showElementClass = ( elementClass ) => {
     removeElementClass( elementClass, 'hide-element');
     addElementClass( elementClass, 'show-element');
-}  
+}
 
 let hideElementClass = ( elementClass ) => {
     removeElementClass( elementClass, 'show-element');
     addElementClass( elementClass, 'hide-element');
-}  
+}
 
 let addElementClass = ( elementClass, className ) => {
     document.getElementsByClassName( elementClass )[0].classList.add( className );
 }
- 
+
 let removeElementClass = ( elementClass, className ) => {
     document.getElementsByClassName( elementClass )[0].classList.remove( className );
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    
+
     //addElementClass('banner-text-two', 'hide-element');
 
     // Check when to show banner
@@ -92,24 +104,23 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log('Show banner');
         showBanner();
     }
-    
+
     // register event for close button
     addClickListener( '.closing-button', ( event ) => {
-        console.log('.closing-button click' + event);   
+        console.log('.closing-button click' + event);
         hideBanner();
     });
-    
+
     let installTextVisible = true;
     // register event for tap on banner
     addClickListener( '.ios-pwa-banner', ( event ) => {
-        console.log('.ios-pwa-banner click' + event); 
+        console.log('.ios-pwa-banner click' + event);
         if ( installTextVisible ){
-            showTextTwo();   
+            showTextTwo();
             installTextVisible = false;
         }else{
-            showTextOne();    
+            showTextOne();
             installTextVisible = true;
         }
     });
 });
-
