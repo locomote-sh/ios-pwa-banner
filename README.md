@@ -20,4 +20,5 @@ installed (post iOS 11.3 version).
 
 ## TODO
 - Show banner only for version post iOS 11.3.
+- Improve on images sizes: they should be svg or multiple sizes of png.
 - Convert JS to module and load as module instead of script.
