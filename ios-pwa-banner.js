@@ -52,6 +52,8 @@ let addEventListener = ( type, element, fn ) => {
     }, false );
 }
 
+// TODO: Use function for name, prototyped or exported functions
+// use arrow for callbacks 
 let showBanner = () => {
     removeElementClass('ios-pwa-banner', 'hide-element');
 }

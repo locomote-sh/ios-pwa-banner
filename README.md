@@ -1,1 +1,23 @@
 # ios-pwa-banner
+
+A iOS banner to show a PWA installing instructions banner for iOS devices.
+
+## Usage
+
+To load the banner in a HTML document follow the next instructions:
+
+1- Load the js:
+
+`<script src="ios-pwa-banner.js"></script>`
+
+2- Load the css:
+
+`<link rel="stylesheet" href="ios-pwa-banner.css" />`
+
+That is all, the JS script will automatically insert the required elements in
+the DOM and will take care of showing the banner in iOS where where PWA can be
+installed (post iOS 11.3 version).
+
+## TODO
+- Show banner only for version post iOS 11.3.
+- Convert JS to module and load as module instead of script.
