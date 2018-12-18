@@ -10,35 +10,53 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+// TODO: only inject HTML if the version is iOS
 
-// Show a PWA banner in iOS
-console.log('loaded ios-pwa-banner.js 0');
+// Injects a banner in the DOM and controls when to show it depending on iOS verson
 
-let disableBannerCheck = true;
+// The min iOS version where the banner is showed
+var minVersionSupported = '11.3';
 
-// Detects if device is on iOS
-const isIos = () => {
-    const userAgent = window.navigator.userAgent.toLowerCase();
-    console.log('UA')
-    console.log(userAgent);
-    return /iphone|ipad|ipod/.test( userAgent );
-}
+console.log(`iOS PWA Banner: Min iOS version supported: ${minVersionSupported}`);
 
-const iOSversion = () => {
-  if (/iP(hone|od|ad)/.test(navigator.platform)) {
-    // supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
-    var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
-    return [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
-  }
-}
-
-//let ver = iOSversion();
-//if (ver[0] >= 11) {
-//  alert('This is running iOS 11 or later.');
-//}
+// Use for testin. Set to true always show the banner (any platform)
+let disableBannerCheck = false;
 
 // Detects if device is in standalone mode
 const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+
+// Detects if device is on iOS
+function isIos(){
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod/.test( userAgent );
+}
+
+/**
+  * Get the iOS platform iOS version
+  * @return     Array with the platform version e.g ['0S 11_2',11,'2']
+  */
+function iOSversion(){
+    if (/iP(hone|od|ad)/.test(window.navigator.platform)) {
+        // supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
+        var v = (window.navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+        return [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
+    }
+}
+
+/**
+  * Check if the devices version is same or above the min version
+  * @return false if version is pre minVersionSupported or not iOS. true if version is equal or post minVersionSupported
+  */
+function isMinIosVersionSupported(){
+    if ( !isIos() ) return false;
+    let platformVersionArray = iOSversion();
+    console.log(`Device iOS version: ${platformVersionArray[0]}.${platformVersionArray[1]}`);
+    console.log('Min iOS verson supported: ' + minVersionSupported);
+    let platformVersion = platformVersionArray[0];
+    let platformSubversion = platformVersionArray[1];
+    let minVersionSupportedArray = minVersionSupported.split('.').map( (v) => {return parseInt( v )} );       // [11,3]
+    return ( platformVersion >= minVersionSupportedArray[0] && platformSubversion >= minVersionSupportedArray[1] );
+}
 
 /**
   * A DOM element than can be showed and hidded.
@@ -102,38 +120,39 @@ let getBannerHtml = function( appName ){
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    // Get the app title from the header. More info: https://github.com/locomote-sh/build-web-manifest
-    let appTitle = document.head.querySelector('[name=apple-mobile-web-app-title][content]').content || 'APP';
 
-    // Create a container element and insert the banner HTML
-    let bannerContainerElement = document.createElement('div');
-    bannerContainerElement.innerHTML = getBannerHtml(appTitle);
-    document.body.appendChild(bannerContainerElement);
+    if ( disableBannerCheck || ( isMinIosVersionSupported() && !isInStandaloneMode()) ) {
 
-    // Instantiate elements
-    let iOSBannerElement =         new Element('.ios-pwa-banner');
-    let closingButtonElement =  new Element('.closing-button');
-    let bannerText =            new BannerText( '.banner-text-one', '.banner-text-two' );
+        // Get the app title from the header. More info: https://github.com/locomote-sh/build-web-manifest
+        let appTitle = document.head.querySelector('[name=apple-mobile-web-app-title][content]').content || 'APP';
 
-    // show the banner only on iOS
-    if ( disableBannerCheck || ( isIos() && !isInStandaloneMode()) ) {
+        // Create a container element and insert the banner HTML
+        let bannerContainerElement = document.createElement('div');
+        bannerContainerElement.innerHTML = getBannerHtml(appTitle);
+        document.body.appendChild(bannerContainerElement);
+
+        // Instantiate elements
+        let iOSBannerElement =         new Element('.ios-pwa-banner');
+        let closingButtonElement =     new Element('.closing-button');
+        let bannerText =               new BannerText( '.banner-text-one', '.banner-text-two' );
+
+        // show the banner only on iOS
         iOSBannerElement.show();
+
+        // register event listeners
+        closingButtonElement.addEventListener(( event ) => {
+            iOSBannerElement.hide();
+        });
+
+        let textOneVisible = true;
+        iOSBannerElement.addEventListener(( event ) => {
+            if ( textOneVisible ){
+                bannerText.showTextOne();
+                textOneVisible = false;
+            }else{
+                bannerText.showTextTwo();
+                textOneVisible = true;
+            }
+        });
     }
-
-    // register event listeners
-    closingButtonElement.addEventListener(( event ) => {
-        iOSBannerElement.hide();
-    });
-
-    let textOneVisible = true;
-    iOSBannerElement.addEventListener(( event ) => {
-        if ( textOneVisible ){
-            bannerText.showTextOne();
-            textOneVisible = false;
-        }else{
-            bannerText.showTextTwo();
-            textOneVisible = true;
-        }
-    });
-
 });
