@@ -25,17 +25,19 @@ let disableBannerCheck = false;
 // Detects if device is in standalone mode
 const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
 
-// Detects if device is on iOS
+// Detects if device is iphone, ipad or ipod
 function isIos(){
+    console.log(window.navigator.userAgent)
     const userAgent = window.navigator.userAgent.toLowerCase();
     return /iphone|ipad|ipod/.test( userAgent );
 }
 
 /**
-  * Get the iOS platform iOS version
+  * Check if device platform is iOS and get the iOS version
   * @return     Array with the platform version e.g ['0S 11_2',11,'2']
   */
 function iOSversion(){
+    console.log(window.navigator.platform)
     if (/iP(hone|od|ad)/.test(window.navigator.platform)) {
         // supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
         var v = (window.navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
@@ -50,12 +52,22 @@ function iOSversion(){
 function isMinIosVersionSupported(){
     if ( !isIos() ) return false;
     let platformVersionArray = iOSversion();
-    console.log(`Device iOS version: ${platformVersionArray[0]}.${platformVersionArray[1]}`);
-    console.log('Min iOS verson supported: ' + minVersionSupported);
-    let platformVersion = platformVersionArray[0];
-    let platformSubversion = platformVersionArray[1];
-    let minVersionSupportedArray = minVersionSupported.split('.').map( (v) => {return parseInt( v )} );       // [11,3]
-    return ( platformVersion >= minVersionSupportedArray[0] && platformSubversion >= minVersionSupportedArray[1] );
+    if ( platformVersionArray ){
+        console.log(`Device iOS version: ${platformVersionArray[0]}.${platformVersionArray[1]}`);
+        console.log('Min iOS verson supported: ' + minVersionSupported);
+        let minVersionSupportedArray = minVersionSupported.split('.').map( (v) => {return parseInt( v )} );       // [11,3]
+        let [minVersionSupported, minSubversionSupported] = minVersionSupportedArray;
+        let [platformVersion, platformSubversion] = platformVersionArray;
+        if ( platformVersion > minVersionSupportedArray[0] ) {
+            return true;
+        }
+        if ( platformVersion == minVersionSupportedArray[0] && platformSubversion >= minVersionSupportedArray[1])
+            return true;
+        }
+        return false;
+    } else {
+        return false;
+    }
 }
 
 /**
@@ -121,7 +133,7 @@ let getBannerHtml = function( appName ){
 
 document.addEventListener("DOMContentLoaded", function() {
 
-    if ( disableBannerCheck || ( isMinIosVersionSupported() && !isInStandaloneMode()) ) {
+    if ( disableBannerCheck || ( isIos() && isMinIosVersionSupported() && !isInStandaloneMode()) ) {
 
         // Get the app title from the header. More info: https://github.com/locomote-sh/build-web-manifest
         let appTitle = document.head.querySelector('[name=apple-mobile-web-app-title][content]').content || 'APP';
@@ -154,5 +166,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 textOneVisible = true;
             }
         });
+    }else{
+        console.log(`iOS version not supporting PWA. Not showing the banner.`)
     }
 });
