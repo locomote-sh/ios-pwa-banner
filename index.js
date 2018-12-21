@@ -15,9 +15,9 @@
 // Injects a banner in the DOM and controls when to show it depending on iOS verson
 
 // The min iOS version where the banner is showed
-var minVersionSupported = '11.3';
+var miniOSVersionSupported = '11.3';
 
-console.log(`iOS PWA Banner: Min iOS version supported: ${minVersionSupported}`);
+console.log(`iOS PWA Banner: Min iOS version supported: ${miniOSVersionSupported}`);
 
 // Use for testin. Set to true always show the banner (any platform)
 let disableBannerCheck = false;
@@ -53,15 +53,15 @@ function isMinIosVersionSupported(){
     if ( !isIos() ) return false;
     let platformVersionArray = iOSversion();
     if ( platformVersionArray ){
-        console.log(`Device iOS version: ${platformVersionArray[0]}.${platformVersionArray[1]}`);
+        let minVersionSupportedArray = miniOSVersionSupported.split('.').map( (v) => {return parseInt( v )} );       // [11,3]
+        let [ minVersionSupported, minSubversionSupported ] = minVersionSupportedArray;
+        let [ platformVersion, platformSubversion ] = platformVersionArray;
+        console.log(`Device iOS version: ${platformVersion}.${platformSubversion}`);
         console.log('Min iOS verson supported: ' + minVersionSupported);
-        let minVersionSupportedArray = minVersionSupported.split('.').map( (v) => {return parseInt( v )} );       // [11,3]
-        let [minVersionSupported, minSubversionSupported] = minVersionSupportedArray;
-        let [platformVersion, platformSubversion] = platformVersionArray;
-        if ( platformVersion > minVersionSupportedArray[0] ) {
+        if ( platformVersion > minVersionSupported ) {
             return true;
         }
-        if ( platformVersion == minVersionSupportedArray[0] && platformSubversion >= minVersionSupportedArray[1])
+        if ( platformVersion == minVersionSupported && platformSubversion >= minSubversionSupported){
             return true;
         }
         return false;
